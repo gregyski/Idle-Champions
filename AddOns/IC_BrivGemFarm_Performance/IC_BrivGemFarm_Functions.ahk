@@ -282,7 +282,7 @@ class IC_BrivGemFarm_Class
         ; Don't test while modron resetting.
         if (CurrentZone < 0 OR CurrentZone >= g_SF.ModronResetZone)
             return
-        stacks := g_BrivUserSettings[ "AutoCalculateBrivStacks" ] ? g_SF.Memory.ReadSBStacks() : this.GetNumStacksFarmed()
+        stacks := g_SF.Memory.ReadSBStacks()
         targetStacks := g_BrivUserSettings[ "AutoCalculateBrivStacks" ] ? (this.TargetStacks - this.LeftoverStacks) : g_BrivUserSettings[ "TargetStacks" ]
         
         stackfail := 0
@@ -442,7 +442,7 @@ class IC_BrivGemFarm_Class
     ; Stack Briv's SteelBones by switching to his formation and restarting the game.
     StackRestart()
     {
-        lastStacks := stacks := g_BrivUserSettings[ "AutoCalculateBrivStacks" ] ? g_SF.Memory.ReadSBStacks() : this.GetNumStacksFarmed()
+        lastStacks := stacks := g_SF.Memory.ReadSBStacks()
         targetStacks := g_BrivUserSettings[ "AutoCalculateBrivStacks" ] ? (this.TargetStacks - this.LeftoverStacks) : g_BrivUserSettings[ "TargetStacks" ]
         if (stacks >= targetStacks)
             return
@@ -477,7 +477,7 @@ class IC_BrivGemFarm_Class
                 ElapsedTime := A_TickCount - StartTime
             }
             g_SF.SafetyCheck()
-            stacks := g_BrivUserSettings[ "AutoCalculateBrivStacks" ] ? g_SF.Memory.ReadSBStacks() : this.GetNumStacksFarmed()
+            stacks := g_SF.Memory.ReadSBStacks()
             ;check if save reverted back to below stacking conditions
             if (g_SF.Memory.ReadCurrentZone() < g_BrivUserSettings[ "MinStackZone" ])
             {
@@ -521,7 +521,7 @@ class IC_BrivGemFarm_Class
     ; Stack Briv's SteelBones by switching to his formation.
     StackNormal(maxOnlineStackTime := 300000)
     {
-        stacks := g_BrivUserSettings[ "AutoCalculateBrivStacks" ] ? g_SF.Memory.ReadSBStacks() : this.GetNumStacksFarmed()
+        stacks := g_SF.Memory.ReadSBStacks()
         targetStacks := g_BrivUserSettings[ "AutoCalculateBrivStacks" ] ? (this.TargetStacks - this.LeftoverStacks) : g_BrivUserSettings[ "TargetStacks" ]
         if (this.ShouldAvoidRestack(stacks, targetStacks))
             return
@@ -532,7 +532,7 @@ class IC_BrivGemFarm_Class
         while ( stacks < targetStacks AND ElapsedTime < maxOnlineStackTime )
         {
             g_SF.FallBackFromBossZone()
-            stacks := g_BrivUserSettings[ "AutoCalculateBrivStacks" ] ? g_SF.Memory.ReadSBStacks() : this.GetNumStacksFarmed()
+            stacks := g_SF.Memory.ReadSBStacks()
             Sleep, 124
             ElapsedTime := A_TickCount - StartTime
         }
